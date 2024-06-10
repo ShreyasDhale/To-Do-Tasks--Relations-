@@ -55,20 +55,16 @@ userSchema.virtual('tasks', {
 
 userSchema.methods.toJSON = function () {
     const user = this.toObject();
-    // delete user.password;
-    // delete user.tokens;
+    delete user.password;
+    delete user.tokens;
     return user;
 };
 
 userSchema.statics.findByCredential = async function (email, password) {
     const user = await this.findOne({ email });
-    if (!user) {
-        throw new Error("User not found");
-    }
+    if (!user) throw new Error("User not found");
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-        throw new Error("Invalid Credentials");
-    }
+    if (!isMatch) throw new Error("Invalid Credentials");
     return user;
 };
 
@@ -80,6 +76,17 @@ userSchema.methods.generateAuthToken = async function () {
     return token;
 };
 
+userSchema.statics.encryptPassword = async function (password) {
+    return await bcrypt.hash(password, 8);
+};
+
+userSchema.statics.removeUser = async function (id) {
+    const user = await User.findByIdAndDelete(id)
+    if (!user) throw new Error('User Not found : 404');
+    await Tasks.deleteMany({ owner: id });
+    return user;
+}
+
 userSchema.pre('save', async function (next) {
     const user = this;
     if (user.isModified('password')) {
@@ -87,12 +94,6 @@ userSchema.pre('save', async function (next) {
     }
     next();
 });
-
-userSchema.pre('remove', async function (next) {
-    const user = this
-    await Tasks.remove({ owner: user.require.user._id })
-    next();
-})
 
 const User = mongoose.model('User', userSchema);
 
