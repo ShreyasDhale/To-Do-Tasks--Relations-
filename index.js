@@ -1,9 +1,15 @@
 require('./db/connection')
 const express = require("express");
+const path = require('path')
 const userRouter = require('./routers/users.routers')
 const taskRouter = require('./routers/tasks.routers')
 const app = express()
 app.use(express.json())
+
+app.get('/',async (req,res)=>{
+    res.sendFile(path.join(__dirname,"/views","Home.html"))
+});
+
 app.use(userRouter)
 app.use(taskRouter)
 const port = process.env.port || 3000

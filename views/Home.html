@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Arial', sans-serif;
+    }
+
+    body {
+        background: linear-gradient(to right, #00c6ff, #0057ff);
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        text-align: center;
+    }
+
+    header {
+        margin-bottom: 2rem;
+    }
+
+    header h1 {
+        font-size: 3rem;
+        animation: fadeInDown 1s ease-in-out;
+    }
+
+    header p {
+        font-size: 1.2rem;
+        margin-top: 1rem;
+        animation: fadeInDown 1.2s ease-in-out;
+    }
+
+    main {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hero {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        animation: zoomIn 0.8s ease-in-out;
+    }
+
+    .hero h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .cta-button {
+        background: #fff;
+        color: #0072ff;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 25px;
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .cta-button:hover {
+        background: #0072ff;
+        color: #fff;
+        transform: translateY(-3px);
+    }
+
+    footer {
+        margin-top: 2rem;
+    }
+
+    footer p {
+        font-size: 0.8rem;
+    }
+
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes zoomIn {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+</style>
+
+<body>
+    <header>
+        <h1>Welcome to To-Do App</h1>
+        <p>Organize your tasks efficiently and effortlessly.</p>
+    </header>
+    <main>
+        <div class="hero">
+            <h2>Stay organized, stay productive</h2>
+            <p>Manage your tasks with ease and never miss a deadline.</p>
+            <a href="/users" class="cta-button">Get Users</a>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 To-Do App. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
