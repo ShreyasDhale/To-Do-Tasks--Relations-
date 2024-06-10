@@ -14,12 +14,11 @@ console.log("Server is running at "+port)
 // const Tasks = require('./db/models/tasks')
 // const Users = require('./db/models/user')
 // const myFunc = async () => {
-//     const task = await Tasks.findById('6665fae8883c38b14cf2d99a');
+//     const task = await Tasks.findById('666733f62c7a11dd19235515');
 //     await task.populate('owner');
 //     console.log(task);
   
-//     const user = await Users.findById('6665f7928dae1d7fdee5b9b0')
-//     await user.populate('tasks');
+//     const user = await Users.findById('6667275cbaa22b9ab7336f20').populate('tasks').exec();
 //     console.log(user);
 // }
 

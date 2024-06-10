@@ -16,13 +16,37 @@ router.post('/tasks', auth, async (req, res) => {
     }
 });
 
-// list tasks
+// list tasks according to query
 
 router.get('/tasks', auth, async (req, res) => {
+    const match = {}
+    const sort = {}
+    if (req.query.isCompleted) {
+        match.isCompleted = req.query.isCompleted === 'true'
+    }
+    if (req.query.sortBy) {
+        const str = req.query.sortBy.split(':')
+        sort[str[0]] = str[1] === 'desc' ? -1 : 1
+    }
     try {
-        const tasks = await Tasks.find({ owner: req.user._id });
-        if (!tasks) return res.status(404).send("No Tasks Found");
-        res.status(201).send(tasks);
+        if (req.query == {}) {
+            const tasks = await Tasks.find({ owner: req.user._id });
+            if (!tasks) return res.status(404).send("No Tasks Found");
+            res.status(200).send(tasks);
+        } else {
+            await req.user.populate({
+                path: 'tasks',
+                match,
+                options: {
+                    limit: parseInt(req.query.limit),
+                    skip: parseInt(req.query.skip),
+                    sort
+                }
+            })
+
+            if (!req.user.tasks.length) return res.status(404).send("No Tasks Found");
+            res.status(200).send(req.user.tasks);
+        }
     } catch (e) {
         res.status(500).send(e.message);
     }
@@ -50,7 +74,7 @@ router.patch('/tasks/:id', async (req, res) => {
         const isUpdationValid = keys.every(key => allowedUpdates.includes(key));
 
         if (!isUpdationValid) res.status(400).send();
-        const task = await Tasks.findOneAndUpdate({ _id: req.params.id, owner: req.user._id }, req.body, { new: true, runValidators: true });
+        const task = await Tasks.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true, runValidators: true });
         if (!task) return res.status(404).send("Tasks not found");
         res.status(200).send(task);
     } catch (e) {
